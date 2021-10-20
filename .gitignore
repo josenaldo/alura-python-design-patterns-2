@@ -73,3 +73,4 @@ env.bak/
 venv.bak/
 
 # End of https://www.gitignore.io/api/python,pycharm
+/src/alura.db
