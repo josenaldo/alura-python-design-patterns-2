@@ -1,4 +1,6 @@
-DROP TABLE cursos;
+PRAGMA encoding = "UTF-8";
+
+DROP TABLE IF EXISTS cursos;
 
 CREATE TABLE cursos (
     id number NOT NULL PRIMARY KEY,

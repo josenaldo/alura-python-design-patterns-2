@@ -1,7 +1,6 @@
-from contextlib import closing
-
 import MySQLdb
 import sqlite3
+
 
 class ConnectionFactoryMysql:
 
@@ -14,21 +13,21 @@ class ConnectionFactoryMysql:
             db='alura'
         )
 
-    def init_db(self):
-        with closing(self.get_connection()) as db:
-            with open("../db/banco.sql") as arquivo:
-                db.cursor().executescript(arquivo.read())
+    def init_db(self, connection):
+        with open("../db/banco.sql") as arquivo:
+            connection.cursor().executescript(arquivo.read())
 
-            db.commit()
+        connection.commit()
+
 
 class ConnectionFactorySQLite:
 
     def get_connection(self):
-        return sqlite3.connect('alura.db')
+        connection = sqlite3.connect(":memory:")
+        self.init_db(connection)
+        return connection
 
-    def init_db(self):
-        with closing(self.get_connection()) as db:
-            with open("../db/banco.sql") as arquivo:
-                db.cursor().executescript(arquivo.read())
-
-            db.commit()
+    def init_db(self, connection):
+        with open("../db/banco.sql", mode="r", encoding="utf-8") as arquivo:
+            connection.cursor().executescript(arquivo.read())
+        connection.commit()
