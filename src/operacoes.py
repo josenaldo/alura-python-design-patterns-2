@@ -1,10 +1,16 @@
-from abc import ABCMeta
+from abc import ABCMeta, abstractmethod
+
+from src.impressao import Impressao
 
 
-class Expressao(ABCMeta):
+class Expressao(metaclass=ABCMeta):
 
-    @staticmethod
+    @abstractmethod
     def avalia(self):
+        pass
+
+    @abstractmethod
+    def aceita(self, visitor):
         pass
 
 
@@ -14,8 +20,19 @@ class Subtracao(Expressao):
         self.__expressao_esquerda = expressao_esquerda
         self.__expressao_direita = expressao_direita
 
+    @property
+    def expressao_esquerda(self):
+        return self.__expressao_esquerda
+
+    @property
+    def expressao_direita(self):
+        return self.__expressao_direita
+
     def avalia(self):
         return self.__expressao_esquerda.avalia() - self.__expressao_direita.avalia()
+
+    def aceita(self, visitor):
+        return visitor.visita_subtracao(self)
 
 
 class Soma(Expressao):
@@ -26,6 +43,17 @@ class Soma(Expressao):
 
     def avalia(self):
         return self.__expressao_esquerda.avalia() + self.__expressao_direita.avalia()
+
+    def aceita(self, visitor):
+        return visitor.visita_soma(self)
+
+    @property
+    def expressao_esquerda(self):
+        return self.__expressao_esquerda
+
+    @property
+    def expressao_direita(self):
+        return self.__expressao_direita
 
 
 class Numero(Expressao):
@@ -38,11 +66,17 @@ class Numero(Expressao):
     def avalia(self):
         return self.__numero
 
+    def aceita(self, visitor):
+        return visitor.visita_numero(self)
+
 
 if __name__ == '__main__':
-    expressao_esquerda = Soma(Numero(10), Numero(20))
-    expressao_direita = Soma(Numero(5), Numero(2))
-    expressao_conta = Soma(expressao_esquerda, expressao_direita)
-    resultado = expressao_conta.avalia()
+    exp_esquerda = Soma(Numero(10), Numero(20))
+    exp_direita = Subtracao(Numero(7), Numero(2))
+    exp_conta = Subtracao(exp_esquerda, exp_direita)
+    resultado = exp_conta.avalia()
 
-    print(f"Resultado: {resultado}")
+    impressao = Impressao()
+    exp_conta.aceita(impressao)
+
+    print(f" = {resultado}")
