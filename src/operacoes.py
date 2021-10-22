@@ -1,4 +1,14 @@
-class Subtracao:
+from abc import ABCMeta
+
+
+class Expressao(ABCMeta):
+
+    @staticmethod
+    def avalia(self):
+        pass
+
+
+class Subtracao(Expressao):
     def __init__(self, expressao_esquerda, expressao_direita):
         """Construtor de Subtracao """
         self.__expressao_esquerda = expressao_esquerda
@@ -8,7 +18,7 @@ class Subtracao:
         return self.__expressao_esquerda.avalia() - self.__expressao_direita.avalia()
 
 
-class Soma:
+class Soma(Expressao):
     def __init__(self, expressao_esquerda, expressao_direita):
         """Construtor de Adicao """
         self.__expressao_esquerda = expressao_esquerda
@@ -18,7 +28,7 @@ class Soma:
         return self.__expressao_esquerda.avalia() + self.__expressao_direita.avalia()
 
 
-class Numero:
+class Numero(Expressao):
     """Classe que representa um número"""
 
     def __init__(self, numero):
@@ -36,5 +46,3 @@ if __name__ == '__main__':
     resultado = expressao_conta.avalia()
 
     print(f"Resultado: {resultado}")
-
-
