@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 
-from src.impressao import Impressao
+from src.impressaovisitor import ImpressaoVisitor, PrefixaVisitor
 
 
 class Expressao(metaclass=ABCMeta):
@@ -76,7 +76,10 @@ if __name__ == '__main__':
     exp_conta = Subtracao(exp_esquerda, exp_direita)
     resultado = exp_conta.avalia()
 
-    impressao = Impressao()
+    impressao = ImpressaoVisitor()
     exp_conta.aceita(impressao)
 
     print(f" = {resultado}")
+
+    prefixa = PrefixaVisitor()
+    exp_conta.aceita(prefixa)
