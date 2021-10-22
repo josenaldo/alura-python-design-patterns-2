@@ -58,7 +58,6 @@ class TestContrato:
         historico.adiciona_estado(contrato.salva_estado())
 
         assert len(historico) == 3
-        
+
         estado = historico.obtem_estado(1)
         assert estado.contrato.tipo == contrato_em_andamento
-

@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 class Contrato:
 
     def __init__(self, data, cliente, tipo):
@@ -56,10 +59,18 @@ class Contrato:
 class Estado:
     def __init__(self, contrato):
         self.__contrato = contrato
+        self.__data_de_criacao = datetime.now()
+
+    def __str__(self):
+        return f"{self.data_de_criacao.strftime('%Y-%m-%d %H:%M:%S')} - {self.contrato}"
 
     @property
     def contrato(self):
         return self.__contrato
+
+    @property
+    def data_de_criacao(self):
+        return self.__data_de_criacao
 
 
 class Historico:
